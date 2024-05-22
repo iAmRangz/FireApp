@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 from datetime import datetime
+from collections import defaultdict
+
 
 
 class HomePageView(ListView):
@@ -188,3 +190,32 @@ def map_station(request):
      }
 
      return render(request, 'map_station.html', context)
+ 
+
+def map_incidents(request):
+    incidents = Incident.objects.select_related('location').values(
+        'location__name', 'location__latitude', 'location__longitude', 'description', 'date_time'
+    )
+
+    locations = defaultdict(lambda: {'incidents': []})
+    for incident in incidents:
+        location_name = incident['location__name']
+        location_data = {
+            'name': location_name,
+            'latitude': float(incident['location__latitude']),
+            'longitude': float(incident['location__longitude']),
+            'incidents': locations[location_name]['incidents']
+        }
+        location_data['incidents'].append({
+            'description': incident['description'],
+            'date_time': incident['date_time'].strftime('%Y-%m-%d')
+        })
+        locations[location_name] = location_data
+
+    locations_list = list(locations.values())
+
+    context = {
+        'locations': locations_list,
+    }
+
+    return render(request, 'map_incidents.html', context)
