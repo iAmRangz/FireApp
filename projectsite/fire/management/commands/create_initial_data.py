@@ -4,28 +4,28 @@ from faker import Faker
 from django.utils import timezone
 from fire.models import Locations, Incident, FireStation, Firefighters, FireTruck, WeatherConditions
 
-fake = Faker()
+fake = Faker('fil-PH')
 
 class Command(BaseCommand):
     help = 'Create dummy data for the application'
 
     def handle(self, *args: Any, **kwargs: Any) -> None:
-        self.create_locations(10)
-        self.create_incidents(20)
-        self.create_fire_stations(5)
-        self.create_firefighters(50)
-        self.create_fire_trucks(20)
-        self.create_weather_conditions(20)
+        self.create_locations(20)
+        self.create_incidents(0)
+        self.create_fire_stations(0)
+        self.create_firefighters(0)
+        self.create_fire_trucks(0)
+        self.create_weather_conditions(0)
 
     def create_locations(self, count: int) -> None:
         for _ in range(count):
             Locations.objects.create(
-                name=fake.company(),
+                name=fake.building_name(),
                 latitude=fake.latitude(),
                 longitude=fake.longitude(),
-                address=fake.address(),
-                city=fake.city(),
-                country=fake.country()
+                address=fake.street_address(),
+                city=fake.province_lgu(),
+                country=fake.current_country()
             )
         self.stdout.write(self.style.SUCCESS('Locations created successfully.'))
 

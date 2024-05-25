@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from fire.models import Locations, Incident, FireStation
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from fire.models import Locations, Incident, FireStation, WeatherConditions
 from django.db import connection
 from django.http import JsonResponse
 from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 from datetime import datetime
 from collections import defaultdict
+from django.urls import reverse_lazy
+from fire.forms import *
 
 
 
@@ -194,7 +197,7 @@ def map_station(request):
 
 def map_incidents(request):
     incidents = Incident.objects.select_related('location').values(
-        'location__name', 'location__latitude', 'location__longitude', 'description', 'date_time'
+        'location__name', 'location__city', 'location__latitude', 'location__longitude', 'description', 'date_time'
     )
 
     locations = defaultdict(lambda: {'incidents': []})
@@ -202,6 +205,7 @@ def map_incidents(request):
         location_name = incident['location__name']
         location_data = {
             'name': location_name,
+            'city': incident['location__city'],
             'latitude': float(incident['location__latitude']),
             'longitude': float(incident['location__longitude']),
             'incidents': locations[location_name]['incidents']
@@ -219,3 +223,30 @@ def map_incidents(request):
     }
 
     return render(request, 'map_incidents.html', context)
+
+
+class WeatherConditionsList(ListView):
+    model = WeatherConditions
+    context_object_name = 'weather'
+    template_name = "weatherconditions_list.html"
+    paginate_by = 10
+    
+
+class WeatherConditionsAdd(CreateView):
+    model = WeatherConditions
+    form_class = WeatherConditionsForm
+    template_name = "weatherconditions_add.html"
+    success_url = reverse_lazy('weather-list')
+    
+
+class WeatherConditionsUpdate(UpdateView):
+    model = WeatherConditions
+    form_class = WeatherConditionsForm
+    template_name = "weatherconditions_edit.html"
+    success_url = reverse_lazy('weather-list')
+    
+    
+class WeatherConditionsDelete(DeleteView):
+    model = WeatherConditions
+    template_name = "weatherconditions_delete.html"
+    success_url = reverse_lazy('weather-list')
