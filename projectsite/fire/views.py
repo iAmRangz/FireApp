@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from fire.models import Locations, Incident, FireStation, WeatherConditions
+from fire.models import Locations, Incident, FireStation, WeatherConditions, FireTruck
 from django.db import connection
 from django.http import JsonResponse
 from django.db.models.functions import ExtractMonth
@@ -225,6 +225,7 @@ def map_incidents(request):
     return render(request, 'map_incidents.html', context)
 
 
+# Weather Conditions Views
 class WeatherConditionsList(ListView):
     model = WeatherConditions
     context_object_name = 'weather'
@@ -250,3 +251,28 @@ class WeatherConditionsDelete(DeleteView):
     model = WeatherConditions
     template_name = "weatherconditions_delete.html"
     success_url = reverse_lazy('weather-list')
+
+
+# Firetruck Views
+class FireTruckList(ListView):
+    model = FireTruck
+    context_object_name = 'firetruck'
+    template_name = "firetruck_list.html"
+    paginate_by = 10
+
+class FireTruckAdd(CreateView):
+    model = FireTruck
+    form_class = FireTruckForm
+    template_name = "firetruck_add.html"
+    success_url = reverse_lazy('firetruck-list')
+
+class FireTruckUpdate(UpdateView):
+    model = FireTruck
+    form_class = FireTruckForm
+    template_name = "firetruck_edit.html"
+    success_url = reverse_lazy('firetruck-list')
+    
+class FireTruckDelete(DeleteView):
+    model = FireTruck
+    template_name = "firetruck_delete.html"
+    success_url = reverse_lazy('firetruck-list')
