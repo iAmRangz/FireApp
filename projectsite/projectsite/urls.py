@@ -38,4 +38,9 @@ urlpatterns = [
     path('locations_list/add', LocationsAdd.as_view(), name='locations-add'),
     path('locations_list/edit/<int:pk>', LocationsUpdate.as_view(), name='locations-update'),
     path('locations_list/delete/<int:pk>', LocationsDelete.as_view(), name='locations-delete'),
+
+    path('firefighters_list', FirefightersList.as_view(), name='firefighters-list'),
+    path('firefighters_list/add', FirefightersAdd.as_view(), name='firefighters-add'),
+    path('firefighters_list/edit/<int:pk>', FirefightersUpdate.as_view(), name='firefighters-update'),
+    path('firefighters_list/delete/<int:pk>', FirefightersDelete.as_view(), name='firefighters-delete'),
 ]

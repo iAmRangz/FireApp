@@ -196,24 +196,18 @@
                   </ul>
                 </div>
               </li>
+              
               <li class="nav-item">
-                <a href="{% url 'weather-list' %}">
-                  <i class="fas fa-cloud"></i>
-                  <p>Weather Conditions</p>
+                <a href="{% url 'locations-list' %}">
+                  <i class="fas fa-location-arrow"></i>
+                  <p>Fire Locations</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'firetruck-list' %}">
-                  <i class="fas fa-truck-monster"></i>
-                  <p>Fire Truck</p>
-                </a>
-              </li>
-              
-              <li class="nav-item">
                 <a href="{% url 'incident-list' %}">
                   <i class="fas fa-fire"></i>
-                  <p>Incidents</p>
+                  <p>Fire Incidents</p>
                 </a>
               </li>
 
@@ -225,12 +219,26 @@
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'locations-list' %}">
-                  <i class="fas fa-location-arrow"></i>
-                  <p>Fire Locations</p>
+                <a href="{% url 'firefighters-list' %}">
+                  <i class="fas fa-fire-extinguisher"></i>
+                  <p>Fire Fighters</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'firetruck-list' %}">
+                  <i class="fas fa-truck-monster"></i>
+                  <p>Fire Trucks</p>
                 </a>
               </li>
               
+              <li class="nav-item">
+                <a href="{% url 'weather-list' %}">
+                  <i class="fas fa-cloud"></i>
+                  <p>Weather Conditions</p>
+                </a>
+              </li>
+
             </ul>
           </div>
         </div>
