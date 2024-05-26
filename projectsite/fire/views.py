@@ -11,7 +11,9 @@ from collections import defaultdict
 from django.urls import reverse_lazy
 from fire.forms import *
 
-
+from typing import Any
+from django.db.models.query import QuerySet
+from django.db.models import Q
 
 class HomePageView(ListView):
     model = Locations
@@ -231,6 +233,17 @@ class WeatherConditionsList(ListView):
     context_object_name = 'weather'
     template_name = "weatherconditions_list.html"
     paginate_by = 10
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(WeatherConditionsList, self).get_queryset(*args, **kwargs)
+        if self.request.GET.get("q") != None:
+             query = self.request.GET.get('q')
+             qs = qs.filter(Q(incident__location__name__icontains=query) |
+                            # Q(temperature__icontains=query) |
+                            # Q(humidity__icontains=query) |
+                            # Q(wind_speed__icontains=query) |
+                            Q(weather_description__icontains=query))
+        return qs
     
 
 class WeatherConditionsAdd(CreateView):
@@ -260,6 +273,16 @@ class FireTruckList(ListView):
     template_name = "firetruck_list.html"
     paginate_by = 10
 
+    def get_queryset(self, *args, **kwargs):
+         qs = super(FireTruckList, self).get_queryset(*args, **kwargs)
+         if self.request.GET.get("q") != None:
+             query = self.request.GET.get('q')
+             qs = qs.filter(Q(truck_number__icontains=query) |
+                            Q(model__icontains=query) |
+                            Q(capacity__icontains=query) )
+                            # Q(firestation__name__icontains=query))
+         return qs
+
 class FireTruckAdd(CreateView):
     model = FireTruck
     form_class = FireTruckForm
@@ -284,6 +307,17 @@ class IncidentList(ListView):
     context_object_name = 'incident'
     template_name = "incident_list.html"
     paginate_by = 10
+
+    def get_queryset(self, *args, **kwargs):
+         qs = super(IncidentList, self).get_queryset(*args, **kwargs)
+         if self.request.GET.get("q") != None:
+             query = self.request.GET.get('q')
+             qs = qs.filter(Q(location__name__icontains=query) |
+                            # Q(date_time__icontains=query) |
+                            Q(severity_level__icontains=query) |
+                            Q(description__icontains=query))
+         return qs
+
 
 class IncidentAdd(CreateView):
     model = Incident
@@ -310,6 +344,17 @@ class FireStationList(ListView):
     template_name = "firestation_list.html"
     paginate_by = 10
 
+    def get_queryset(self, *args, **kwargs):
+         qs = super(FireStationList, self).get_queryset(*args, **kwargs)
+         if self.request.GET.get("q") != None:
+             query = self.request.GET.get('q')
+             qs = qs.filter(Q(name__icontains=query) |
+                           # Q(latitude__icontains=query) |
+                            Q(address__icontains=query) |
+                            Q(city__icontains=query) |
+                            Q(country__icontains=query))
+         return qs
+
 class FireStationAdd(CreateView):
     model = FireStation
     form_class = FireStationForm
@@ -335,6 +380,17 @@ class LocationsList(ListView):
     template_name = "locations_list.html"
     paginate_by = 10
 
+    def get_queryset(self, *args, **kwargs):
+         qs = super(LocationsList, self).get_queryset(*args, **kwargs)
+         if self.request.GET.get("q") != None:
+             query = self.request.GET.get('q')
+             qs = qs.filter(Q(name__icontains=query) |
+                           # Q(latitude__icontains=query) |
+                            Q(address__icontains=query) |
+                            Q(city__icontains=query) |
+                            Q(country__icontains=query))
+         return qs
+
 class LocationsAdd(CreateView):
     model = Locations
     form_class = LocationsForm
@@ -359,6 +415,17 @@ class FirefightersList(ListView):
     context_object_name = 'firefighters'
     template_name = "firefighters_list.html"
     paginate_by = 10
+
+    def get_queryset(self, *args, **kwargs):
+         qs = super(FirefightersList, self).get_queryset(*args, **kwargs)
+         if self.request.GET.get("q") != None:
+             query = self.request.GET.get('q')
+             qs = qs.filter(Q(name__icontains=query) |
+                            Q(rank__icontains=query) |
+                            Q(experience_level__icontains=query) |
+                            Q(station__icontains=query))
+         return qs
+
 
 class FirefightersAdd(CreateView):
     model = Firefighters
