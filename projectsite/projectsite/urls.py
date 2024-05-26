@@ -23,4 +23,10 @@ urlpatterns = [
     path('firetruck_list/add', FireTruckAdd.as_view(), name='firetruck-add'),
     path('firetruck_list/edit/<int:pk>', FireTruckUpdate.as_view(), name='firetruck-update'),
     path('firetruck_list/delete/<int:pk>', FireTruckDelete.as_view(), name='firetruck-delete'),
+
+    path('incident_list', IncidentList.as_view(), name='incident-list'),
+    path('incident_list/add', IncidentAdd.as_view(), name='incident-add'),
+    path('incident_list/edit/<int:pk>', IncidentUpdate.as_view(), name='incident-update'),
+    path('incident_list/delete/<int:pk>', IncidentDelete.as_view(), name='incident-delete'),
+
 ]

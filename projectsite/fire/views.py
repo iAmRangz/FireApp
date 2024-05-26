@@ -276,3 +276,28 @@ class FireTruckDelete(DeleteView):
     model = FireTruck
     template_name = "firetruck_delete.html"
     success_url = reverse_lazy('firetruck-list')
+
+
+# Incident Views
+class IncidentList(ListView):
+    model = Incident
+    context_object_name = 'incident'
+    template_name = "incident_list.html"
+    paginate_by = 10
+
+class IncidentAdd(CreateView):
+    model = Incident
+    form_class = IncidentForm
+    template_name = "incident_add.html"
+    success_url = reverse_lazy('incident-list')
+
+class IncidentUpdate(UpdateView):
+    model = Incident
+    form_class = IncidentForm
+    template_name = "incident_edit.html"
+    success_url = reverse_lazy('incident-list')
+    
+class IncidentDelete(DeleteView):
+    model = Incident
+    template_name = "incident_delete.html"
+    success_url = reverse_lazy('incident-list')
