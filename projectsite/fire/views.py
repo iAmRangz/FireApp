@@ -10,15 +10,9 @@ from datetime import datetime
 from collections import defaultdict
 from django.urls import reverse_lazy
 from fire.forms import *
-
 from typing import Any
 from django.db.models.query import QuerySet
 from django.db.models import Q
-
-class HomePageView(ListView):
-    model = Locations
-    context_object_name = 'home'
-    template_name = "home.html"
 
 
 class ChartView(ListView):

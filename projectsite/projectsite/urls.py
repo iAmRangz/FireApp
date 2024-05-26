@@ -5,8 +5,7 @@ from fire.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', ChartView.as_view(), name='home'),
-    path('dashboard_chart', ChartView.as_view(), name='dashboard-chart'),
+    path('', ChartView.as_view(), name='dashboard-chart'),
     path('chart/', PieCountbySeverity, name='chart'),
     path('multilineChart/', MultilineIncidentTop3Country, name='chart'),
     path('multiBarChart/', multipleBarbySeverity, name='chart'),
