@@ -12,13 +12,6 @@ from django.urls import reverse_lazy
 from fire.forms import *
 
 
-
-class HomePageView(ListView):
-    model = Locations
-    context_object_name = 'home'
-    template_name = "home.html"
-
-
 class ChartView(ListView):
     template_name = 'chart.html'
 
