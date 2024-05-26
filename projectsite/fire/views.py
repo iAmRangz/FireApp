@@ -253,7 +253,7 @@ class WeatherConditionsDelete(DeleteView):
     success_url = reverse_lazy('weather-list')
 
 
-# Firetruck Views
+# Fire Truck Views
 class FireTruckList(ListView):
     model = FireTruck
     context_object_name = 'firetruck'
@@ -301,3 +301,28 @@ class IncidentDelete(DeleteView):
     model = Incident
     template_name = "incident_delete.html"
     success_url = reverse_lazy('incident-list')
+
+
+# Fire Stations Views
+class FireStationList(ListView):
+    model = FireStation
+    context_object_name = 'firestation'
+    template_name = "firestation_list.html"
+    paginate_by = 10
+
+class FireStationAdd(CreateView):
+    model = FireStation
+    form_class = FireStationForm
+    template_name = "firestation_add.html"
+    success_url = reverse_lazy('firestation-list')
+
+class FireStationUpdate(UpdateView):
+    model = FireStation
+    form_class = FireStationForm
+    template_name = "firestation_edit.html"
+    success_url = reverse_lazy('firestation-list')
+    
+class FireStationDelete(DeleteView):
+    model = FireStation
+    template_name = "firestation_delete.html"
+    success_url = reverse_lazy('firestation-list')

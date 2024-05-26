@@ -29,4 +29,8 @@ urlpatterns = [
     path('incident_list/edit/<int:pk>', IncidentUpdate.as_view(), name='incident-update'),
     path('incident_list/delete/<int:pk>', IncidentDelete.as_view(), name='incident-delete'),
 
+    path('firestation_list', FireStationList.as_view(), name='firestation-list'),
+    path('firestation_list/add', FireStationAdd.as_view(), name='firestation-add'),
+    path('firestation_list/edit/<int:pk>', FireStationUpdate.as_view(), name='firestation-update'),
+    path('firestation_list/delete/<int:pk>', FireStationDelete.as_view(), name='firestation-delete'),
 ]
