@@ -60,9 +60,9 @@
                                 {% for object in object_list %}
                                 <tr>
                                     <td>{{ object.incident }}</td>
-                                    <td>{{ object.temperature }}</td>
-                                    <td>{{ object.humidity }}</td>
-                                    <td>{{ object.wind_speed }}</td>
+                                    <td>{{ object.temperature }} °C</td>
+                                    <td>{{ object.humidity }}%</td>
+                                    <td>{{ object.wind_speed }} km/h</td>
                                     <td>{{ object.weather_description }}</td>
                                     <td>
                                         <a href="weather_list/edit/{{ object.id }}">Edit</a>
