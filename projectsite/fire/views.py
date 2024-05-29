@@ -213,9 +213,11 @@ def map_incidents(request):
         locations[location_name] = location_data
 
     locations_list = list(locations.values())
+    distinct_cities = Locations.objects.values_list('city', flat=True).distinct()
 
     context = {
         'locations': locations_list,
+        'distinct_cities': distinct_cities,
     }
 
     return render(request, 'map_incidents.html', context)
