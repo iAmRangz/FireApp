@@ -3,7 +3,7 @@
 
 <div class="page-inner">
   <div class="page-header">
-    <h4 class="page-title">Dashboard</h4>
+    <h4 class="page-title">Fire Incidents Map</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{% url 'dashboard-chart' %}">
@@ -29,10 +29,19 @@
       <div class="card card-transparent">
         <div class="card-header">
           <h4 class="card-title text-center">Fire Incidents</h4>
-          <p class="card-category text-center">Looks great on any resolution. Made by our friends from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</p>
+          <p class="card-category text-center">Track recent fire incidents on the map. Powered by <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</p>
         </div>
         <div class="card-body">
           <div class="col-md-10 ml-auto mr-auto">
+            <div class="form-inline mb-3">
+              <label for="city-filter" class="mr-2 font-weight-bold">Filter by City:</label>
+              <select id="city-filter" class="form-control form-control-sm">
+                <option value="">All Cities</option>
+                {% for city in distinct_cities %}
+                <option value="{{ city }}">{{ city }}</option>
+                {% endfor %}
+              </select>
+            </div>
             <div id="map" style="width: 100%; height: 600px"></div>
           </div>
         </div>
@@ -54,6 +63,7 @@
 
   // Define the marker data
   var markerData = {{ locations|safe }};
+  var markers = [];
 
   // Loop through the marker data and create markers
   markerData.forEach(function (data) {
@@ -61,6 +71,7 @@
     var longitude = data.longitude;
 
     var marker = L.marker([latitude, longitude], { icon: fireIcon }).addTo(map);
+    marker.options.data = data;
 
     // Create a popup and set its content
     var popupContent = '<h6>' + data.name + '</h6>';
@@ -82,6 +93,34 @@
     marker.on('mouseout', function (e) {
       this.closePopup();
     });
+
+    markers.push(marker);
+  });
+
+  // Filter markers based on selected city and center the map
+  var cityFilter = document.getElementById('city-filter');
+  cityFilter.addEventListener('change', function () {
+    var selectedCity = this.value;
+    var cityMarkers = markers.filter(function (marker) {
+      return selectedCity === '' || marker.options.data.city === selectedCity;
+    });
+
+    markers.forEach(function (marker) {
+      if (selectedCity === '' || marker.options.data.city === selectedCity) {
+        marker.addTo(map);
+      } else {
+        map.removeLayer(marker);
+      }
+    });
+
+    if (cityMarkers.length > 0) {
+      var bounds = L.latLngBounds(cityMarkers.map(function (marker) {
+      return marker.getLatLng();
+    }));
+    map.fitBounds(bounds, { maxZoom: 13 });
+    } else {
+    map.setView([9.81644, 118.72239], 13); // Default view if no city selected
+  }
   });
 </script>
 {% endblock %}
