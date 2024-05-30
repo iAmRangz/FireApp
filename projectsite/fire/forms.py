@@ -10,6 +10,8 @@ class LocationsForm(ModelForm):
         
         
 class IncidentForm(ModelForm):
+    date_time = forms.DateTimeField(label='Date time', widget=forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}))
+    
     class Meta:
         model = Incident
         fields = "__all__"
