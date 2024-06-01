@@ -193,7 +193,7 @@ def map_station(request):
 
 def map_incidents(request):
     incidents = Incident.objects.select_related('location').values(
-        'location__name', 'location__city', 'location__latitude', 'location__longitude', 'description', 'date_time'
+        'location__name', 'location__city', 'location__latitude', 'location__longitude', 'description', 'date_time', 'severity_level'
     )
 
     locations = defaultdict(lambda: {'incidents': []})
@@ -208,7 +208,8 @@ def map_incidents(request):
         }
         location_data['incidents'].append({
             'description': incident['description'],
-            'date_time': incident['date_time'].strftime('%Y-%m-%d')
+            'date_time': incident['date_time'].strftime('%Y-%m-%d %H:%M:%S'),
+            'severity_level': incident['severity_level']
         })
         locations[location_name] = location_data
 
