@@ -10,10 +10,10 @@ class Command(BaseCommand):
     help = 'Create dummy data for the application'
 
     def handle(self, *args: Any, **kwargs: Any) -> None:
-        self.create_locations(20)
+        self.create_locations(0)
         self.create_incidents(0)
         self.create_fire_stations(0)
-        self.create_firefighters(0)
+        self.create_firefighters(50)
         self.create_fire_trucks(0)
         self.create_weather_conditions(0)
 
