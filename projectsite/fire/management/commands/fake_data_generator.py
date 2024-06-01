@@ -62,8 +62,8 @@ class Command(BaseCommand):
         for _ in range(count):
             Firefighters.objects.create(
                 name=fake.name(),
-                rank=fake.job(),
-                experience_level=fake.random_element(xp_choices),
+                rank=fake.random_element(xp_choices),
+                experience_level=fake.job(),
                 station=fake.random_element(stations)
             )
         self.stdout.write(self.style.SUCCESS('Firefighters created successfully.'))
